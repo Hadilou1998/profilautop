@@ -17,10 +17,11 @@ class CoverLetterFixtures extends Fixture
         for ($i = 0; $i < 50; $i++) {
             $coverLetter = new CoverLetter();
             $coverLetter
-                ->setJobOffer($this->getReference('job_offer_' . $i))
-                ->setAppUser($this->getReference('user_' . $i))
-                ->setContent($faker->text(500));
+                ->setContent($faker->text(500))
+                ->setAppUser($this->getReference($manager))
+                ->setJobOffer($this->getReference('job' . $i));
             $manager->persist($coverLetter);
+            $this->addReference('cover_letter_' . $i, $coverLetter);
         }
         
         $manager->flush();
