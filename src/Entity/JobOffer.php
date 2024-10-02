@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\JobOfferRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -44,6 +46,17 @@ class JobOffer
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $app_user = null;
+
+    /**
+     * @var Collection<int, CoverLetter>
+     */
+    #[ORM\OneToMany(targetEntity: CoverLetter::class, mappedBy: 'jobOffer')]
+    private Collection $coverLetters;
+
+    public function __construct()
+    {
+        $this->coverLetters = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -166,6 +179,36 @@ class JobOffer
     public function setAppUser(?User $app_user): static
     {
         $this->app_user = $app_user;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, CoverLetter>
+     */
+    public function getCoverLetters(): Collection
+    {
+        return $this->coverLetters;
+    }
+
+    public function addCoverLetter(CoverLetter $coverLetter): static
+    {
+        if (!$this->coverLetters->contains($coverLetter)) {
+            $this->coverLetters->add($coverLetter);
+            $coverLetter->setJobOffer($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCoverLetter(CoverLetter $coverLetter): static
+    {
+        if ($this->coverLetters->removeElement($coverLetter)) {
+            // set the owning side to null (unless already changed)
+            if ($coverLetter->getJobOffer() === $this) {
+                $coverLetter->setJobOffer(null);
+            }
+        }
 
         return $this;
     }
