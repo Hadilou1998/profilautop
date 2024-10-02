@@ -8,11 +8,18 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class SecurityController extends AbstractController
 {
-    #[Route('/security', name: 'app_security')]
-    public function index(): Response
+    #[Route('/login', name: 'app_login')]
+    public function login(): Response
     {
-        return $this->render('security/index.html.twig', [
+        return $this->render('security/login.html.twig', [
             'controller_name' => 'SecurityController',
         ]);
+    }
+
+    #[Route('/logout', name: 'app_logout', methods: ['GET'])]
+    public function logout(): void
+    {
+        // controller can be blank: it will never be called!
+        throw new \Exception('Don\'t forget to activate logout in security.yaml');
     }
 }

@@ -13,8 +13,8 @@ class JobOfferFixtures extends Fixture
     {
         $faker = Factory::create();
 
-        // Create 10 job offers
-        for ($i = 0; $i < 10; $i++) {
+        // Create 50 job offers
+        for ($i = 0; $i < 50; $i++) {
             $jobOffer = new JobOffer();
             $jobOffer
                 ->setTitle($faker->jobTitle)
@@ -24,9 +24,8 @@ class JobOfferFixtures extends Fixture
                 ->setSalary($faker->numberBetween(1000, 100000))
                 ->setContactPerson($faker->name)
                 ->setContactEmail($faker->email)
-                ->setApplicationDate($faker->DateTimeImmutable('-1 year', 'now'))
-                ->setStatus($faker->randomElement(['applied', 'interview', 'rejected', 'offer', 'archived']))
-                ->setAppUser($this->getReference('user_' . $faker->numberBetween(0, 9)));
+                ->setApplicationDate($faker->dateTimeBetween('-1 year', 'now'))
+                ->setStatus($faker->randomElement(['applied', 'interviewing', 'rejected', 'offered']));
             $manager->persist($jobOffer);
             $this->addReference('job_offer_' . $i, $jobOffer);
         }
