@@ -13,15 +13,22 @@ class CoverLetterFixtures extends Fixture
     {
         $faker = Factory::create();
 
-        // Create cover letters
+        // Reference to the User fixtures
+        $this->addReference('user_', $this->getReference('user_0'));
+
+        // Reference to the JobOffer fixtures
+        for ($i = 0; $i < 50; $i++) {
+            $this->addReference('job_offer_' . $i, $this->getReference('job_offer_'. $i));
+        }
+
+        // Create 50 cover letters
         for ($i = 0; $i < 50; $i++) {
             $coverLetter = new CoverLetter();
             $coverLetter
-                ->setContent($faker->text(500))
-                ->setAppUser($this->getReference($manager))
-                ->setJobOffer($this->getReference('job' . $i));
+                ->setContent($faker->paragraphs(3, true))
+                ->setAppUser($this->getReference('user_' . $i))
+                ->setJobOffer($this->getReference('job_offer_' . $i));
             $manager->persist($coverLetter);
-            $this->addReference('cover_letter_' . $i, $coverLetter);
         }
         
         $manager->flush();

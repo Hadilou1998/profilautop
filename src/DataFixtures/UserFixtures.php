@@ -25,7 +25,7 @@ class UserFixtures extends Fixture
             ->setLastName($faker->lastName)
             ->setImage($faker->imageUrl(640, 480, 'people', true));
         $manager->persist($user);
-        $this->addReference('user_1', $user);
+        $this->addReference('user_0', $user);
 
         // Create more users
         for ($i = 2; $i <= 10; $i++) {
