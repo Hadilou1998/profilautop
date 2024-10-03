@@ -1,5 +1,5 @@
 security:
-    encoders:
+    password_hashers:
         App\Entity\User:
             algorithm: bcrypt
             cost: 12
@@ -18,14 +18,18 @@ security:
             security: false
 
         main:
-            anonymous: lazy
+            pattern: ^/
             provider: app_user_provider
 
             # Login form configuration
             form_login:
-                login_path: security_login
-                check_path: security_login
-                csrf_token_generator: security.csrf.token_manager
+                login_path: /login
+                check_path: /login_check
+                enable_csrf: true
+                csrf_token_id: authenticate
+                csrf_parameter: _csrf_token
+                username_parameter: _username
+                password_parameter: _password
                 default_target_path: dashboard
 
             logout:
@@ -41,12 +45,12 @@ security:
 
     access_control:
         # Allowing unrestricted access to login, register, and home pages
-        - { path: ^/login$, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/register$, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/$, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/login$, roles: PUBLIC_ACCESS_CONTROL }
+        - { path: ^/register$, roles: PUBLIC_ACCESS_CONTROL }
+        - { path: ^/$, roles: PUBLIC_ACCESS_CONTROL }
 
         # Only authenticated users can access logout
-        - { path: ^/logout$, roles: IS_AUTHENTICATED_FULLY }
+        - { path: ^/logout$, roles: PUBLIC_ACCESS_CONTROL }
 
         # Only users with ROLE_USER can access these pages
         - { path: ^/dashboard, roles: ROLE_USER }
