@@ -22,11 +22,13 @@ class LinkedInMessageController extends AbstractController
     {
         $this->logger = $logger;
     }
-    
+
     #[Route('/linkedin-message/generate', name: 'linkedin_message_generate', methods: ['POST'])]
     #[IsGranted('ROLE_USER')]
     public function generate(Request $request, JobOfferRepository $jobOfferRepository, EntityManagerInterface $em): JsonResponse
     {
+        $this->logger->info('Generating LinkedIn message...');
+        
         $data = json_decode($request->getContent(), true);
         $jobOfferId = $data['jobOfferId'] ?? null;
 
