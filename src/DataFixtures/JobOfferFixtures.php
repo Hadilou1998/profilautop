@@ -27,7 +27,7 @@ class JobOfferFixtures extends Fixture
                 ->setApplicationDate($faker->dateTimeBetween('-1 year', 'now'))
                 ->setStatus($faker->randomElement(['applied', 'interviewing', 'rejected', 'offered']));
             $manager->persist($jobOffer);
-            $this->addReference('job_offer_'. $i, $jobOffer);
+            $this->addReference('job_offer_' . $i, $jobOffer);
         }
 
         $manager->flush();
