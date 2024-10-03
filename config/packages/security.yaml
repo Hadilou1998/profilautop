@@ -22,8 +22,24 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-        # - { path: ^/admin, roles: ROLE_ADMIN }
-        # - { path: ^/profile, roles: ROLE_USER }
+        - { path: ^/$, roles: PUBLIC_ACCESS }
+        - { path: ^/login$, roles: PUBLIC_ACCESS }
+        - { path: ^/register$, roles: PUBLIC_ACCESS }
+        - { path: ^/logout$, roles: PUBLIC_ACCESS }
+        - { path: ^/dashboard, roles: ROLE_USER }
+        - { path: ^/job-offers, roles: ROLE_USER }
+        - { path: ^/job-offers/new$, roles: ROLE_USER }
+        - { path: ^/job-offers/\d+$, roles: ROLE_USER }
+        - { path: ^/job-offers/\d+$/edit, roles: ROLE_USER }
+        - { path: ^/job-offers/\d+$/delete, roles: ROLE_USER }
+        - { path: ^/linkedin-message/generate, roles: ROLE_USER }
+        - { path: ^/linkedin-message/\d+$, roles: ROLE_USER }
+        - { path: ^/cover-letter/generate, roles: ROLE_USER }
+        - { path: ^/cover-letter/\d+$, roles: ROLE_USER }
+        - { path: ^/kanban, roles: ROLE_USER }
+        - { path: ^/api/job-offers/update-status, roles: ROLE_USER }
+
+
 
 when@test:
     security:

@@ -14,6 +14,17 @@ class JobOfferFixtures extends Fixture implements DependentFixtureInterface
     {
         $faker = Factory::create();
 
+        // References des utilisateurs
+        $users = [];
+        for ($i = 0; $i < 10; $i++) {
+            $users[] = $this->getReference('user_'. $i);
+        }
+        
+        // Associer les utilisateurs aux job offres
+        foreach ($users as $user) {
+            $manager->refresh($user);
+        }
+
         // Create 50 job offers aléatoires
         for ($i = 0; $i < 50; $i++) {
             $jobOffer = new JobOffer();
