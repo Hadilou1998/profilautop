@@ -1,20 +1,19 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello JobOfferController!{% endblock %}
+{% block title %}Détails de l'Offre d'Emploi{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
-
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
-
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code>/home/hadil/PREPAVENIR/profilautop/src/Controller/JobOfferController.php</code></li>
-        <li>Your template at <code>/home/hadil/PREPAVENIR/profilautop/templates/job_offer/index.html.twig</code></li>
-    </ul>
-</div>
+    <h1>{{ jobOffer.title }}</h1>
+    
+    <p><strong>Entreprise :</strong> {{ jobOffer.company }}</p>
+    <p><strong>Lieu :</strong> {{ jobOffer.location }}</p>
+    <p><strong>Statut :</strong> {{ jobOffer.status }}</p>
+    <p><strong>Date de candidature :</strong> {{ jobOffer.applicationDate|date('Y-m-d') }}</p>
+    
+    <a href="{{ path('job_offer_edit', { 'id': jobOffer.id }) }}" class="btn btn-warning">Modifier</a>
+    
+    <form action="{{ path('job_offer_delete', { 'id': jobOffer.id }) }}" method="post" style="display:inline;">
+        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ jobOffer.id) }}">
+        <button class="btn btn-danger">Supprimer</button>
+    </form>
 {% endblock %}

@@ -1,5 +1,61 @@
-controllers:
-    resource:
-        path: ../src/Controller/
-        namespace: App\Controller
-    type: attribute
+# config/routes.yaml
+
+home:
+    path: /
+    controller: App\Controller\HomeController::index
+    methods: [GET]
+    access_control: all
+
+login:
+    path: /login
+    controller: App\Controller\SecurityController::login
+    methods: [GET, POST]
+    access_control: all
+
+logout:
+    path: /logout
+    controller: App\Controller\SecurityController::logout
+    methods: [GET]
+    access_control: all
+
+register:
+    path: /register
+    controller: App\Controller\RegistrationController::register
+    methods: [GET, POST]
+    access_control: all
+
+dashboard:
+    path: /dashboard
+    controller: App\Controller\DashboardController::index
+    methods: [GET]
+    access_control: ROLE_USER
+
+job_offer_list:
+    path: /job-offers
+    controller: App\Controller\JobOfferController::list
+    methods: [GET]
+    access_control: ROLE_USER
+
+job_offer_new:
+    path: /job-offers/new
+    controller: App\Controller\JobOfferController::new
+    methods: [GET, POST]
+    access_control: ROLE_USER
+
+job_offer_show:
+    path: /job-offers/{id}
+    controller: App\Controller\JobOfferController::show
+    methods: [GET]
+    access_control: ROLE_USER
+
+job_offer_edit:
+    path: /job-offers/{id}/edit
+    controller: App\Controller\JobOfferController::edit
+    methods: [GET, POST]
+    access_control: ROLE_USER
+
+job_offer_delete:
+    path: /job-offers/{id}/delete
+    controller: App\Controller\JobOfferController::delete
+    methods: [GET, POST]
+    access_control: ROLE_USER
