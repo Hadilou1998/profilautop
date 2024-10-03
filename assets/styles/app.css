@@ -1,3 +1,155 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* --- Styles personnalisés --- */
+
+/* Base styles */
 body {
-    background-color: skyblue;
-}
+    @apply bg-gray-100 text-gray-800 antialiased font-sans;
+  }
+  
+  /* Header */
+  .header {
+    @apply bg-white shadow-md py-4 px-8 flex justify-between items-center;
+  }
+  
+  .header-title {
+    @apply text-2xl font-bold text-blue-600;
+  }
+  
+  .header-links {
+    @apply flex gap-4;
+  }
+  
+  .header-link {
+    @apply text-sm text-gray-700 hover:text-blue-500;
+  }
+  
+  /* Footer */
+  .footer {
+    @apply bg-gray-800 text-white py-6 px-4 text-center;
+  }
+  
+  /* Form styles (Login, Register, etc.) */
+  .form-container {
+    @apply max-w-md mx-auto p-6 bg-white rounded-md shadow-md;
+  }
+  
+  .form-title {
+    @apply text-2xl font-semibold mb-4 text-center text-gray-800;
+  }
+  
+  .form-label {
+    @apply block text-sm font-medium text-gray-600 mb-1;
+  }
+  
+  .form-input {
+    @apply w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500;
+  }
+  
+  .form-button {
+    @apply w-full bg-blue-600 text-white p-2 rounded-md mt-4 hover:bg-blue-700;
+  }
+  
+  .form-link {
+    @apply text-sm text-blue-600 hover:text-blue-800 mt-2 inline-block;
+  }
+  
+  /* Dashboard */
+  .dashboard-container {
+    @apply p-8 bg-white rounded-md shadow-md;
+  }
+  
+  .dashboard-title {
+    @apply text-3xl font-bold mb-6 text-gray-800;
+  }
+  
+  .dashboard-grid {
+    @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4;
+  }
+  
+  /* Job Offer Card */
+  .job-offer-card {
+    @apply bg-white p-4 rounded-lg shadow-md border border-gray-200;
+  }
+  
+  .job-offer-title {
+    @apply text-xl font-bold text-gray-800 mb-2;
+  }
+  
+  .job-offer-company {
+    @apply text-gray-600 mb-4;
+  }
+  
+  .job-offer-details {
+    @apply text-sm text-gray-500 mb-2;
+  }
+  
+  .job-offer-button {
+    @apply text-blue-600 hover:text-blue-800;
+  }
+  
+  /* LinkedIn Message & Cover Letter */
+  .message-container {
+    @apply p-6 bg-white rounded-md shadow-md max-w-3xl mx-auto;
+  }
+  
+  .message-title {
+    @apply text-2xl font-semibold mb-4 text-gray-800;
+  }
+  
+  .message-content {
+    @apply text-base text-gray-700 whitespace-pre-line;
+  }
+  
+  /* Kanban Board */
+  .kanban-board {
+    @apply grid grid-cols-1 md:grid-cols-3 gap-4;
+  }
+  
+  .kanban-column {
+    @apply bg-gray-100 p-4 rounded-lg shadow-md;
+  }
+  
+  .kanban-title {
+    @apply text-lg font-bold mb-4 text-gray-700;
+  }
+  
+  .kanban-card {
+    @apply bg-white p-3 rounded-md shadow-md mb-4 border border-gray-200;
+  }
+  
+  .kanban-card-status {
+    @apply inline-block text-xs font-semibold py-1 px-2 rounded bg-blue-100 text-blue-700;
+  }
+  
+  /* Buttons and Actions */
+  .primary-button {
+    @apply bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition;
+  }
+  
+  .secondary-button {
+    @apply bg-gray-300 text-gray-800 px-4 py-2 rounded-md hover:bg-gray-400 transition;
+  }
+  
+  .delete-button {
+    @apply text-red-600 hover:text-red-800;
+  }
+  
+  /* Utility classes for spacing and layout */
+  .centered-container {
+    @apply max-w-4xl mx-auto my-8 p-6;
+  }
+  
+  /* Notifications */
+  .notification {
+    @apply bg-yellow-50 border-l-4 border-yellow-400 text-yellow-700 p-4 mb-4;
+  }
+  
+  /* Responsive breakpoints for better design */
+  @media (min-width: 640px) {
+    .form-container {
+      @apply p-10;
+    }
+  }
