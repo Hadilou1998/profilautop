@@ -22,3 +22,12 @@ services:
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+
+    App\Controller\LinkedInMessageController:
+        arguments: ['@doctrine.orm.entity_manager']
+        tags: ['controller.service_arguments']
+        calls:
+            - [setContainer, ['@service_container']]
+            - [setLogger, ['@monolog.logger.app']]
+            - [setLinkedInClient, ['@linkedin_client']]
+            - [setLinkedInService, ['@linkedin_service']]

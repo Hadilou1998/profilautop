@@ -25,11 +25,8 @@ class RegistrationController extends AbstractController
             $em->persist($user);
             $em->flush();
 
-            return $auth->authenticateUser(
-                $user, 
-                $userAuth, 
-                $request
-            );
+            // Redirect to the login after successful registration
+            return $this->redirectToRoute('login');
         }
         return $this->render('registration/register.html.twig', [
             'registrationForm' => $form->createView(),

@@ -6,6 +6,7 @@ use App\Entity\JobOffer;
 use App\Entity\LinkedInMessage;
 use App\Repository\JobOfferRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,6 +16,13 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 class LinkedInMessageController extends AbstractController
 {
+    private LoggerInterface $logger;
+
+    public function __construct(LoggerInterface $logger)
+    {
+        $this->logger = $logger;
+    }
+    
     #[Route('/linkedin-message/generate', name: 'linkedin_message_generate', methods: ['POST'])]
     #[IsGranted('ROLE_USER')]
     public function generate(Request $request, JobOfferRepository $jobOfferRepository, EntityManagerInterface $em): JsonResponse
