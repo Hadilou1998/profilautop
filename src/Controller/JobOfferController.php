@@ -41,4 +41,11 @@ class JobOfferController extends AbstractController
             'id' => $id,
         ]);
     }
+
+    #[Route('/job-offers/{id}/delete', name: 'app_offer_delete', methods: ['POST'])]
+    public function delete($id): Response
+    {
+        // Delete job offer logic here
+        return $this->redirectToRoute('app_offers');
+    }
 }

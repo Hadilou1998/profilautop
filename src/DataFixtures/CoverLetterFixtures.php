@@ -4,11 +4,11 @@ namespace App\DataFixtures;
 
 use App\Entity\CoverLetter;
 use Doctrine\Bundle\FixturesBundle\Fixture;
-use Doctrine\ORM\Mapping\Id;
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use Faker\Factory;
 
-class CoverLetterFixtures extends Fixture
+class CoverLetterFixtures extends Fixture implements DependentFixtureInterface
 {
     public function load(ObjectManager $manager): void
     {
@@ -35,5 +35,13 @@ class CoverLetterFixtures extends Fixture
         }
         
         $manager->flush();
+    }
+
+    public function getDependencies()
+    {
+        return [
+            JobOfferFixtures::class,
+            UserFixtures::class,
+        ];
     }
 }

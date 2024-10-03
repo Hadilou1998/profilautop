@@ -25,7 +25,7 @@ class UserFixtures extends Fixture
             ->setLastName($faker->lastName)
             ->setImage($faker->imageUrl(640, 480, 'people', true));
         $manager->persist($user);
-        $this->addReference(null, $user); // Reference to the first user for other fixtures (CoverLetter, JobOffer, LinkedInMessage)
+        $this->addReference('user_', $user); // Reference to the first user for other fixtures (CoverLetter, JobOffer, LinkedInMessage)
 
         // Create more users
         for ($i = 2; $i <= 10; $i++) {
@@ -38,7 +38,7 @@ class UserFixtures extends Fixture
                 ->setLastName($faker->lastName)
                 ->setImage($faker->imageUrl(640, 480, 'people', true));
             $manager->persist($user);
-            $this->addReference(null. $i, $user); // Reference to the other users for other fixtures (CoverLetter, JobOffer, LinkedInMessage)
+            $this->addReference('user_'. $i, $user); // Reference to the other users for other fixtures (CoverLetter, JobOffer, LinkedInMessage)
         }
 
         $manager->flush();
