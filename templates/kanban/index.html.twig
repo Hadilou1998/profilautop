@@ -1,20 +1,25 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello KanbanController!{% endblock %}
+{% block title %}Suivi des Candidatures{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
-
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
-
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code>/home/hadil/PREPAVENIR/profilautop/src/Controller/KanbanController.php</code></li>
-        <li>Your template at <code>/home/hadil/PREPAVENIR/profilautop/templates/kanban/index.html.twig</code></li>
-    </ul>
+<div class="container mx-auto mt-10">
+    <h1 class="mb-10 text-3xl font-bold text-center">Suivi des Candidatures</h1>
+    <div class="grid grid-cols-1 gap-4 md:grid-cols-4">
+        {% for status, offers in kanban %}
+            <div class="p-4 bg-gray-100 rounded-lg shadow-md">
+                <h2 class="mb-4 text-xl font-semibold">{{ status }}</h2>
+                <div class="space-y-4">
+                    {% for offer in offers %}
+                        <div class="p-4 bg-white border-l-4 border-blue-500 rounded-lg shadow-sm">
+                            <h3 class="font-bold text-gray-800">{{ offer.title }}</h3>
+                            <p class="text-sm text-gray-600">{{ offer.company }}</p>
+                            <a href="{{ path('job_offer_show', { id: offer.id }) }}" class="text-sm text-blue-500 hover:underline">Voir Détails</a>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
 </div>
 {% endblock %}

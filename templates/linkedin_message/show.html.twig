@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Message LinkedIn{% endblock %}
+
+{% block body %}
+<div class="max-w-3xl p-6 mx-auto mt-10 bg-white rounded-lg shadow-md">
+    <h1 class="mb-6 text-3xl font-bold">Message LinkedIn</h1>
+    <div class="p-4 leading-relaxed text-gray-700 whitespace-pre-line rounded bg-gray-50">
+        {{ linkedin_message.content }}
+    </div>
+    <a href="{{ path('job_offer_list') }}" class="inline-block px-6 py-2 mt-10 text-white bg-blue-500 rounded hover:bg-blue-600">
+        Retour aux offres
+    </a>
+</div>
+{% endblock %}

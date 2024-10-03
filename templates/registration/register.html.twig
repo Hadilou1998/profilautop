@@ -1,20 +1,28 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Register{% endblock %}
+{% block title %}Inscription{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
-
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
-
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code>/home/hadil/PREPAVENIR/profilautop/src/Controller/RegistrationController.php</code></li>
-        <li>Your template at <code>/home/hadil/PREPAVENIR/profilautop/templates/registration/index.html.twig</code></li>
-    </ul>
+<div class="container max-w-lg p-6 mx-auto mt-10 bg-white rounded-lg shadow">
+    <h2 class="mb-6 text-3xl font-semibold text-center">Inscription</h2>
+    <form action="{{ path('app_register') }}" method="post">
+        <div class="mb-4">
+            <label for="firstName" class="block text-sm font-medium text-gray-700">Prénom</label>
+            <input type="text" name="firstName" id="firstName" required class="w-full p-3 mt-1 border border-gray-300 rounded">
+        </div>
+        <div class="mb-4">
+            <label for="lastName" class="block text-sm font-medium text-gray-700">Nom</label>
+            <input type="text" name="lastName" id="lastName" required class="w-full p-3 mt-1 border border-gray-300 rounded">
+        </div>
+        <div class="mb-4">
+            <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+            <input type="email" name="email" id="email" required class="w-full p-3 mt-1 border border-gray-300 rounded">
+        </div>
+        <div class="mb-4">
+            <label for="password" class="block text-sm font-medium text-gray-700">Mot de passe</label>
+            <input type="password" name="password" id="password" required class="w-full p-3 mt-1 border border-gray-300 rounded">
+        </div>
+        <button type="submit" class="w-full py-3 text-white bg-blue-500 rounded-lg">Créer un compte</button>
+    </form>
 </div>
 {% endblock %}

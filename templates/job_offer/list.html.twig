@@ -3,37 +3,33 @@
 {% block title %}Offres d'Emploi{% endblock %}
 
 {% block body %}
-<div class="container mx-auto px-4 py-6">
-    <h1 class="text-3xl font-bold mb-4">Liste des Offres d'Emploi</h1>
-    
-    <table class="min-w-full bg-white border border-gray-300">
-        <thead>
-            <tr>
-                <th class="py-2 px-4 border-b">Titre</th>
-                <th class="py-2 px-4 border-b">Entreprise</th>
-                <th class="py-2 px-4 border-b">Lieu</th>
-                <th class="py-2 px-4 border-b">Statut</th>
-                <th class="py-2 px-4 border-b">Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for job in jobOffers %}
-            <tr class="hover:bg-gray-100">
-                <td class="py-2 px-4 border-b">{{ job.title }}</td>
-                <td class="py-2 px-4 border-b">{{ job.company }}</td>
-                <td class="py-2 px-4 border-b">{{ job.location }}</td>
-                <td class="py-2 px-4 border-b">{{ job.status }}</td>
-                <td class="py-2 px-4 border-b">
-                    <a href="{{ path('job_offer_show', {'id': job.id}) }}" class="text-blue-500 hover:underline">Voir</a>
-                    <a href="{{ path('job_offer_edit', {'id': job.id}) }}" class="text-yellow-500 hover:underline">Modifier</a>
-                </td>
-            </tr>
-            {% else %}
-            <tr>
-                <td colspan="5" class="text-center py-4">Aucune offre d'emploi disponible.</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+<div class="container mx-auto mt-10">
+    <h1 class="mb-6 text-3xl font-bold">Mes Offres d'Emploi</h1>
+    <a href="{{ path('job_offer_new') }}" class="px-6 py-3 text-white bg-green-500 rounded-lg">Ajouter une nouvelle offre</a>
+    <div class="mt-6">
+        <table class="min-w-full overflow-hidden bg-white rounded-lg">
+            <thead class="bg-gray-200">
+                <tr>
+                    <th class="px-6 py-4">Titre</th>
+                    <th class="px-6 py-4">Entreprise</th>
+                    <th class="px-6 py-4">Statut</th>
+                    <th class="px-6 py-4">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for jobOffer in jobOffers %}
+                    <tr class="border-t">
+                        <td class="px-6 py-4">{{ jobOffer.title }}</td>
+                        <td class="px-6 py-4">{{ jobOffer.company }}</td>
+                        <td class="px-6 py-4">{{ jobOffer.status }}</td>
+                        <td class="px-6 py-4">
+                            <a href="{{ path('job_offer_show', {'id': jobOffer.id}) }}" class="text-blue-500">Voir</a>
+                            <a href="{{ path('job_offer_edit', {'id': jobOffer.id}) }}" class="ml-4 text-yellow-500">Modifier</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 </div>
 {% endblock %}

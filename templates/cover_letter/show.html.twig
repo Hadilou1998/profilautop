@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Lettre de Motivation{% endblock %}
+
+{% block body %}
+<div class="max-w-4xl p-6 mx-auto mt-10 bg-white rounded-lg shadow-md">
+    <h1 class="mb-6 text-3xl font-bold">Lettre de Motivation</h1>
+    <div class="leading-relaxed text-gray-700 whitespace-pre-line">
+        {{ cover_letter.content }}
+    </div>
+    <a href="{{ path('job_offer_list') }}" class="inline-block px-6 py-2 mt-10 text-white bg-gray-800 rounded hover:bg-gray-900">
+        Retour aux offres
+    </a>
+</div>
+{% endblock %}
