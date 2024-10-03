@@ -23,7 +23,9 @@ class UserFixtures extends Fixture
             ->setRoles(['ROLE_USER'])
             ->setFirstName($faker->firstName)
             ->setLastName($faker->lastName)
-            ->setImage($faker->imageUrl(640, 480, 'people', true));
+            ->setImage($faker->imageUrl(640, 480, 'people', true))
+            ->setCreatedAt(new \DateTimeImmutable())
+            ->setUpdatedAt(new \DateTimeImmutable());
         $manager->persist($user);
         $this->addReference('user_', $user); // Reference to the first user for other fixtures (CoverLetter, JobOffer, LinkedInMessage)
 
@@ -36,7 +38,9 @@ class UserFixtures extends Fixture
                 ->setRoles(['ROLE_USER'])
                 ->setFirstName($faker->firstName)
                 ->setLastName($faker->lastName)
-                ->setImage($faker->imageUrl(640, 480, 'people', true));
+                ->setImage($faker->imageUrl(640, 480, 'people', true))
+                ->setCreatedAt(new \DateTimeImmutable())
+                ->setUpdatedAt(new \DateTimeImmutable());
             $manager->persist($user);
             $this->addReference('user_'. $i, $user); // Reference to the other users for other fixtures (CoverLetter, JobOffer, LinkedInMessage)
         }
