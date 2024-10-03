@@ -8,11 +8,21 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class CoverLetterController extends AbstractController
 {
-    #[Route('/cover/letter', name: 'app_cover_letter')]
-    public function index(): Response
+    #[Route('/cover-letter/generate', name: 'app_cover_letter_generate')]
+    public function generate()
     {
-        return $this->render('cover_letter/index.html.twig', [
+        // aucun chemin spécifié pour cette route
+        return $this->render('N/A', [
             'controller_name' => 'CoverLetterController',
+        ]);
+    }
+
+    #[Route('/cover-letter/{id}', name: 'app_cover_letter_show', methods: ['GET'])]
+    public function show($id)
+    {
+        return $this->render('cover_letter/show.html.twig', [
+            'controller_name' => 'CoverLetterController',
+            'id' => $id,
         ]);
     }
 }

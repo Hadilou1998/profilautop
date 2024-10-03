@@ -8,11 +8,37 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class JobOfferController extends AbstractController
 {
-    #[Route('/job/offer', name: 'app_job_offer')]
-    public function index(): Response
+    #[Route('/job-offers', name: 'app_offers', methods: ['GET'])]
+    public function list(): Response
     {
-        return $this->render('job_offer/index.html.twig', [
+        return $this->render('job_offer/list.html.twig', [
             'controller_name' => 'JobOfferController',
+        ]);
+    }
+
+    #[Route('/job-offers/new', name: 'app_offer_new', methods: ['GET', 'POST'])]
+    public function new(): Response
+    {
+        return $this->render('job_offer/new.html.twig', [
+            'controller_name' => 'JobOfferController',
+        ]);
+    }
+
+    #[Route('/job-offers/{id}', name: 'app_offer_show', methods: ['GET'])]
+    public function show($id): Response
+    {
+        return $this->render('job_offer/show.html.twig', [
+            'controller_name' => 'JobOfferController',
+            'id' => $id,
+        ]);
+    }
+
+    #[Route('/job-offers/{id}/edit', name: 'app_offer_edit', methods: ['GET', 'POST'])]
+    public function edit($id): Response
+    {
+        return $this->render('job_offer/edit.html.twig', [
+            'controller_name' => 'JobOfferController',
+            'id' => $id,
         ]);
     }
 }
