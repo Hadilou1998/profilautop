@@ -2,46 +2,43 @@
 
 namespace App\DataFixtures;
 
-use App\Entity\CoverLetter;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use Faker\Factory;
+use App\Entity\CoverLetter;
+use DateTimeImmutable;
 
 class CoverLetterFixtures extends Fixture implements DependentFixtureInterface
 {
+    private $faker;
+
+    public function __construct()
+    {
+        $this->faker = Factory::create('fr_FR');
+    }
+
     public function load(ObjectManager $manager): void
     {
-        $faker = Factory::create();
-
-        // Get job offers and users from references
-        $jobOffers = [];
-        $users = [];
-        for ($i = 0; $i < 10; $i++) {
-            $jobOffers[] = $this->getReference('job_offer_' . $i);
-            $users[] = $this->getReference('user_' . $i);
-        }
-
-        // Create 100 cover letters
-        for ($i = 0; $i < 100; $i++) {
+        for ($i = 0; $i < 15; $i++) {
             $coverLetter = new CoverLetter();
-            $coverLetter
-                ->setContent($faker->text)
-                ->setCreatedAt($faker->dateTimeImmutable)
-                ->setUpdatedAt($faker->dateTimeImmutable)
-                ->setJobOffer($jobOffers[$faker->numberBetween(0, 49)])
-                ->setAppUser($users[$faker->numberBetween(0, 9)]);
+            $coverLetter->setContent($this->faker->paragraphs(3, true))
+                ->setCreatedAt(new DateTimeImmutable($this->faker->dateTimeThisYear->format('Y-m-d H:i:s')))
+                ->setUpdatedAt(new DateTimeImmutable($this->faker->dateTimeThisMonth->format('Y-m-d H:i:s')))
+                ->setJobOffer($this->getReference('job_offer_' . $this->faker->numberBetween(0, 19)))
+                ->setAppUser($this->getReference('user_' . $this->faker->numberBetween(0, 9)));
+
             $manager->persist($coverLetter);
         }
-        
+
         $manager->flush();
     }
 
     public function getDependencies()
     {
         return [
-            JobOfferFixtures::class,
             UserFixtures::class,
+            JobOfferFixtures::class,
         ];
     }
 }

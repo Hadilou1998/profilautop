@@ -2,47 +2,50 @@
 
 namespace App\DataFixtures;
 
-use App\Entity\JobOffer;
-use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use Faker\Factory;
+use App\Entity\JobOffer;
+use DateTimeImmutable;
 
-class JobOfferFixtures extends Fixture
+class JobOfferFixtures extends Fixture implements DependentFixtureInterface
 {
-    public function getDependencies(): array
+    private $faker;
+
+    public function __construct()
     {
-        return [UserFixtures::class];
+        $this->faker = Factory::create('fr_FR');
     }
 
     public function load(ObjectManager $manager): void
     {
-        $faker = Factory::create();
+        $statuses = ['Envoyée', 'En attente', 'Entretien programmé', 'Refusée', 'Acceptée'];
 
-        $user = $manager->getRepository(User::class)->findOneBy([]);
-
-        if (!$user) {
-            $user = new User();
-            $manager->persist($user);
-        }
-
-        // Create 50 job offers aléatoires
-        for ($i = 0; $i < 50; $i++) {
+        for ($i = 0; $i < 20; $i++) {
             $jobOffer = new JobOffer();
-            $jobOffer
-                ->setTitle($faker->jobTitle)
-                ->setCompany($faker->company)
-                ->setLink($faker->url)
-                ->setLocation($faker->city)
-                ->setSalary($faker->numberBetween(1000, 10000))
-                ->setContactPerson($faker->name)
-                //->setContactEmail($faker->email) // Corrected line
-                ->setApplicationDate($faker->dateTimeBetween('-1 year', 'now'))
-                ->setStatus($faker->randomElement(['pending', 'accepted', 'rejected']));
+            $jobOffer->setTitle($this->faker->jobTitle)
+                ->setCompany($this->faker->company)
+                ->setLink($this->faker->url)
+                ->setLocation($this->faker->city)
+                ->setSalary($this->faker->numberBetween(30000, 100000) . '€')
+                ->setContactPerson($this->faker->name)
+                ->setContactEmail($this->faker->companyEmail)
+                ->setApplicationDate(new DateTimeImmutable($this->faker->dateTimeThisYear->format('Y-m-d')))
+                ->setStatus($this->faker->randomElement($statuses))
+                ->setAppUser($this->getReference('user_' . $this->faker->numberBetween(0, 9)));
+
             $manager->persist($jobOffer);
-            $this->addReference('user_' . $i, $jobOffer);
+            $this->addReference('job_offer_' . $i, $jobOffer);
         }
 
         $manager->flush();
+    }
+
+    public function getDependencies()
+    {
+        return [
+            UserFixtures::class,
+        ];
     }
 }

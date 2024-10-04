@@ -2,54 +2,42 @@
 
 namespace App\DataFixtures;
 
-use App\Entity\LinkedinMessage;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use Faker\Factory;
+use App\Entity\LinkedInMessage;
+use DateTimeImmutable;
 
-class LinkedinMessageFixtures extends Fixture implements DependentFixtureInterface
+class LinkedInMessageFixtures extends Fixture implements DependentFixtureInterface
 {
+    private $faker;
+
+    public function __construct()
+    {
+        $this->faker = Factory::create('fr_FR');
+    }
+
     public function load(ObjectManager $manager): void
     {
-        $faker = Factory::create();
-        
-        // Get job offers from references
-        $jobOffers = [];
-        for ($i = 0; $i < 10; $i++) {
-            $jobOffers[] = $this->getReference('job_offer_' . $i);
-        }
-        
-        // Référence les messages aux job offres
-        for ($i = 0; $i < count($jobOffers); $i++) {
-            $jobOffers[$i]->addLinkedinMessage($this->getReference('linkedin_message_' . $i));
-        }
-        
-        $manager->flush();
-        
-        // Associer les messages aux job offres
-        foreach ($jobOffers as $jobOffer) {
-            $manager->refresh($jobOffer);
-        }
-        
-        // Créer 10 messages de Linkedin aléatoires
-        for ($i = 0; $i < 10; $i++) {
-            $message = new LinkedinMessage();
-            $message
-                ->setContent($faker->sentence)
-                ->setCreatedAt($faker->dateTimeImmutable('now'))
-                ->setUpdatedAt($faker->dateTimeImmutable('now'))
-                ->setJobOffer($faker->randomElement($jobOffers));
+        for ($i = 0; $i < 30; $i++) {
+            $message = new LinkedInMessage();
+            $message->setContent($this->faker->paragraph)
+                ->setCreatedAt(new DateTimeImmutable($this->faker->dateTimeThisYear->format('Y-m-d H:i:s')))
+                ->setUpdatedAt(new DateTimeImmutable($this->faker->dateTimeThisMonth->format('Y-m-d H:i:s')))
+                ->setJobOffer($this->getReference('job_offer_' . $this->faker->numberBetween(0, 19)))
+                ->setAppUser($this->getReference('user_' . $this->faker->numberBetween(0, 9)));
+
             $manager->persist($message);
-            $this->addReference('linkedin_message_' . $i, $message);
         }
-        
+
         $manager->flush();
     }
 
     public function getDependencies()
     {
         return [
+            UserFixtures::class,
             JobOfferFixtures::class,
         ];
     }
