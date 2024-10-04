@@ -1,60 +1,49 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Inscription{% endblock %}
+{% block title %}Inscription - Profilau.top{% endblock %}
 
 {% block body %}
-<div class="w-full max-w-md p-8 bg-white rounded-lg shadow-md">
-        <h1 class="mb-6 text-2xl font-bold text-center">Créer un compte Profilau</h1>
-
-        <form action="{{ path('app_register') }}" method="POST" class="space-y-6">
-            <!-- Prénom -->
-            <div>
-                <label for="firstName" class="block text-sm font-medium text-gray-700">Prénom</label>
-                <input type="text" name="firstName" id="firstName" required
-                    class="block w-full px-3 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-            </div>
-
-            <!-- Nom -->
-            <div>
-                <label for="lastName" class="block text-sm font-medium text-gray-700">Nom</label>
-                <input type="text" name="lastName" id="lastName" required
-                    class="block w-full px-3 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-            </div>
-
-            <!-- Adresse email -->
-            <div>
-                <label for="email" class="block text-sm font-medium text-gray-700">Adresse email</label>
-                <input type="email" name="email" id="email" required
-                    class="block w-full px-3 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-            </div>
-
-            <!-- Mot de passe -->
-            <div>
-                <label for="password" class="block text-sm font-medium text-gray-700">Mot de passe</label>
-                <input type="password" name="password" id="password" required
-                    class="block w-full px-3 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-            </div>
-
-            <!-- Image de profil (optionnelle) -->
-            <div>
-                <label for="image" class="block text-sm font-medium text-gray-700">Image de profil (optionnelle)</label>
-                <input type="file" name="image" id="image" accept="image/*"
-                    class="block w-full mt-1 text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100">
-            </div>
-
-            <!-- Bouton d'inscription -->
-            <div>
-                <button type="submit"
-                    class="flex justify-center w-full px-4 py-2 text-sm font-medium text-white bg-indigo-600 border border-transparent rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                    S'inscrire
-                </button>
-            </div>
-        </form>
-
-        <!-- Lien vers la page de connexion -->
-        <p class="mt-6 text-sm text-center text-gray-600">
-            Déjà un compte ? 
-            <a href="{{ path('app_login') }}" class="font-medium text-indigo-600 hover:text-indigo-500">Se connecter</a>
-        </p>
+<div>
+    <div>
+        <h2>Créez votre compte</h2>
     </div>
+
+    <div>
+        <div>
+            {{ form_start(registrationForm) }}
+                <div>
+                    {{ form_label(registrationForm.firstName, 'Prénom') }}
+                    <div>
+                        {{ form_widget(registrationForm.firstName) }}
+                    </div>
+                </div>
+
+                <div>
+                    {{ form_label(registrationForm.lastName, 'Nom') }}
+                    <div>
+                        {{ form_widget(registrationForm.lastName) }}
+                    </div>
+                </div>
+
+                <div>
+                    {{ form_label(registrationForm.email, 'Email') }}
+                    <div>
+                        {{ form_widget(registrationForm.email) }}
+                    </div>
+                </div>
+
+                <div>
+                    {{ form_label(registrationForm.password, 'Mot de passe') }}
+                    <div>
+                        {{ form_widget(registrationForm.password) }}
+                    </div>
+                </div>
+
+                <div>
+                    <button type="submit">S'inscrire</button>
+                </div>
+            {{ form_end(registrationForm) }}
+        </div>
+    </div>
+</div>
 {% endblock %}
