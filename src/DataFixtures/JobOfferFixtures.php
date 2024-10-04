@@ -14,17 +14,6 @@ class JobOfferFixtures extends Fixture implements DependentFixtureInterface
     {
         $faker = Factory::create();
 
-        // References des utilisateurs
-        $users = [];
-        for ($i = 0; $i < 10; $i++) {
-            $users[] = $this->getReference('user_'. $i);
-        }
-        
-        // Associer les utilisateurs aux job offres
-        foreach ($users as $user) {
-            $manager->refresh($user);
-        }
-
         // Create 50 job offers aléatoires
         for ($i = 0; $i < 50; $i++) {
             $jobOffer = new JobOffer();
@@ -33,14 +22,12 @@ class JobOfferFixtures extends Fixture implements DependentFixtureInterface
                 ->setCompany($faker->company)
                 ->setLink($faker->url)
                 ->setLocation($faker->city)
-                ->setSalary($faker->numberBetween(1000, 100000))
+                ->setSalary($faker->numberBetween(1000, 10000))
                 ->setContactPerson($faker->name)
                 ->setContactEmail($faker->email)
                 ->setApplicationDate($faker->dateTimeBetween('-1 year', 'now'))
-                ->setStatus($faker->randomElement(['applied', 'interviewing', 'rejected', 'offered']))
-                ->setAppUser($this->getReference('user_' . $faker->numberBetween(0, 9)));
+                ->setAppUser($this->getReference('user_' . rand(0, 1)));
             $manager->persist($jobOffer);
-            $this->addReference('job_offer_' . $i, $jobOffer);
         }
 
         $manager->flush();

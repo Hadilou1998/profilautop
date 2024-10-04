@@ -18,33 +18,15 @@ class UserFixtures extends Fixture
         // Create users
         $user = new User();
         $user
-            ->setEmail('merlin@profiluser.fr')
-            ->setPassword($this->hasher->hashPassword($user, 'sorcier'))
-            ->setRoles(['ROLE_USER'])
-            ->setFirstName($faker->firstName)
-            ->setLastName($faker->lastName)
+            ->setEmail('admin@admin.com')
+            ->setPassword($this->hasher->hashPassword($user, 'admin'))
+            ->setRoles(['ROLE_USER', 'ROLE_ADMIN'])
+            ->setFirstname($faker->firstName)
+            ->setLastname($faker->lastName)
             ->setImage($faker->imageUrl(640, 480, 'people', true))
             ->setCreatedAt(new \DateTimeImmutable())
             ->setUpdatedAt(new \DateTimeImmutable());
         $manager->persist($user);
-        $this->addReference('user_', $user); // Reference to the first user for other fixtures (CoverLetter, JobOffer, LinkedInMessage)
-
-        // Create more users
-        for ($i = 2; $i <= 10; $i++) {
-            $user = new User();
-            $user
-                ->setEmail($faker->email)
-                ->setPassword($this->hasher->hashPassword($user, 'password' . $i))
-                ->setRoles(['ROLE_USER'])
-                ->setFirstName($faker->firstName)
-                ->setLastName($faker->lastName)
-                ->setImage($faker->imageUrl(640, 480, 'people', true))
-                ->setCreatedAt(new \DateTimeImmutable())
-                ->setUpdatedAt(new \DateTimeImmutable());
-            $manager->persist($user);
-            $this->addReference('user_'. $i, $user); // Reference to the other users for other fixtures (CoverLetter, JobOffer, LinkedInMessage)
-        }
-
         $manager->flush();
     }
 }
