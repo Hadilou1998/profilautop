@@ -16,17 +16,19 @@ class UserFixtures extends Fixture
         $faker = Factory::create();
 
         // Create users
-        $user = new User();
-        $user
-            ->setEmail('admin@admin.com')
-            ->setPassword($this->hasher->hashPassword($user, 'admin'))
-            ->setRoles(['ROLE_USER', 'ROLE_ADMIN'])
-            ->setFirstname($faker->firstName)
-            ->setLastname($faker->lastName)
-            ->setImage($faker->imageUrl(640, 480, 'people', true))
-            ->setCreatedAt(new \DateTimeImmutable())
-            ->setUpdatedAt(new \DateTimeImmutable());
-        $manager->persist($user);
-        $manager->flush();
+        for ($i = 0; $i < 10; $i++) {
+            $user = new User();
+            $user->setEmail($faker->email)
+                ->setPassword($faker->password)
+                ->setFirstName($faker->firstName)
+                ->setLastName($faker->lastName)
+                ->setCreatedAt(new \DateTimeImmutable($faker->dateTimeThisYear->format('Y-m-d H:i:s')))
+                ->setUpdatedAt(new \DateTimeImmutable($faker->dateTimeThisMonth->format('Y-m-d H:i:s')))
+                ->setImage($faker->imageUrl(200, 200, 'people'))
+                ->setRoles(['ROLE_USER']);
+
+            $manager->persist($user);
+            $this->addReference('user_' . $i, $user);
+        }
     }
 }
