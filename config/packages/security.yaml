@@ -18,6 +18,8 @@ security:
             security: false
 
         main:
+            
+            lazy: true
             pattern: ^/
             provider: app_user_provider
 
@@ -25,12 +27,6 @@ security:
             form_login:
                 login_path: /login
                 check_path: /login_check
-                enable_csrf: true
-                csrf_token_id: authenticate
-                csrf_parameter: _csrf_token
-                username_parameter: _username
-                password_parameter: _password
-                default_target_path: dashboard
 
             logout:
                 path: security_logout
