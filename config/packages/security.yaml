@@ -19,21 +19,21 @@ security:
             lazy: true
             # Use form_login to authenticate users
             form_login:
-                login_path: /login
-                check_path: /login
+                login_path: app_login
+                check_path: app_login
                 # Add the path for redirection after login
                 default_target_path: /
             logout:
-                path: /logout
+                path: app_logout
                 target: /
 
     # Access control
     access_control:
         # Allow everyone to access the home page
-        - { path: ^/$, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/, roles: PUBLIC_ACCESS }
         # Allow access to the login and registration pages for everyone
-        - { path: ^/login$, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/register$, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/login, roles: PUBLIC_ACCESS }
+        - { path: ^/register, roles: PUBLIC_ACCESS }
         # Protect the dashboard and all job offers routes for authenticated users
         - { path: ^/dashboard, roles: ROLE_USER }
         - { path: ^/job-offers, roles: ROLE_USER }
@@ -41,8 +41,8 @@ security:
         - { path: ^/linkedin-message/generate, roles: ROLE_USER }
         - { path: ^/cover-letter/generate, roles: ROLE_USER }
         # Allow users to access their own resources
-        - { path: ^/linkedin-message/\d+$, roles: ROLE_USER }
-        - { path: ^/cover-letter/\d+$, roles: ROLE_USER }
+        - { path: ^/linkedin-message/, roles: ROLE_USER }
+        - { path: ^/cover-letter/, roles: ROLE_USER }
         # Other routes requiring user authentication
         - { path: ^/kanban, roles: ROLE_USER }
         # Allow API calls for authenticated users

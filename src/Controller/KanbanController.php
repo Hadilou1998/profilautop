@@ -10,7 +10,7 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 class KanbanController extends AbstractController
 {
-    #[Route('/kanban', name: 'kanban_index', methods: ['GET'])]
+    #[Route('/kanban', name: 'app_kanban', methods: ['GET'])]
     #[IsGranted('ROLE_USER')]
     public function index(JobOfferRepository $jobOfferRepository): Response
     {
