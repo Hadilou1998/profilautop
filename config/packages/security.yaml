@@ -21,11 +21,9 @@ security:
             form_login:
                 login_path: app_login
                 check_path: app_login
-                # Add the path for redirection after login
-                default_target_path: /
             logout:
                 path: app_logout
-                target: /
+                target: app_home
 
     # Access control
     access_control:
