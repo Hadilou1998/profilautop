@@ -6,7 +6,7 @@
 <div class="w-full max-w-md p-8 bg-white rounded-lg shadow-md">
         <h1 class="mb-6 text-2xl font-bold text-center">Créer un compte Profilau</h1>
 
-        <form action="/register" method="POST" class="space-y-6">
+        <form action="{{ path('app_register') }}" method="POST" class="space-y-6">
             <!-- Prénom -->
             <div>
                 <label for="firstName" class="block text-sm font-medium text-gray-700">Prénom</label>
@@ -54,7 +54,7 @@
         <!-- Lien vers la page de connexion -->
         <p class="mt-6 text-sm text-center text-gray-600">
             Déjà un compte ? 
-            <a href="/login" class="font-medium text-indigo-600 hover:text-indigo-500">Connectez-vous ici</a>.
+            <a href="{{ path('app_login') }}" class="font-medium text-indigo-600 hover:text-indigo-500">Se connecter</a>
         </p>
     </div>
 {% endblock %}

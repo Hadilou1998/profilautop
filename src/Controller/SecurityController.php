@@ -14,7 +14,7 @@ class SecurityController extends AbstractController
     #[Route('/login', name: 'app_login', methods: ['GET', 'POST'])]
     public function login(Request $request, Security $security): Response
     {
-        if ($security->isGranted('PUBLIC_ACCESS')) {
+        if ($security->isGranted('IS_AUTHENTICATED_FULLY')) {
             return $this->redirectToRoute('app_dashboard');
         }
         
