@@ -36,7 +36,7 @@ class JobOfferFixtures extends Fixture
                 ->setLocation($faker->city)
                 ->setSalary($faker->numberBetween(1000, 10000))
                 ->setContactPerson($faker->name)
-                ->setContactEmail($faker->contactEmail) // Corrected line
+                //->setContactEmail($faker->email) // Corrected line
                 ->setApplicationDate($faker->dateTimeBetween('-1 year', 'now'))
                 ->setStatus($faker->randomElement(['pending', 'accepted', 'rejected']));
             $manager->persist($jobOffer);
