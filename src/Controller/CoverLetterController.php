@@ -4,14 +4,12 @@ namespace App\Controller;
 
 use App\Entity\CoverLetter;
 use App\Entity\JobOffer;
-use App\Form\CoverLetterType;
 use App\Repository\CoverLetterRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\User\UserInterface;
 
 #[Route("/cover-letter")]
 class CoverLetterController extends AbstractController
@@ -23,7 +21,7 @@ class CoverLetterController extends AbstractController
         $this->entityManager = $entityManager;
     }
 
-    #[Route('/generate', name: 'cover_letter_generate', methods: ['POST'])]
+    #[Route('/cover-letter/generate', name: 'cover_letter_generate', methods: ['POST'])]
     public function generate(Request $request): Response
     {
         // Génération de la lettre de motivation personnalisée
@@ -53,7 +51,7 @@ class CoverLetterController extends AbstractController
         return $this->json(['message' => 'Cover letter generated successfully.', 'coverLetterId' => $coverLetter->getId()], Response::HTTP_CREATED);
     }
 
-    #[Route('/{id}', name: 'cover_letter_show', methods: ['GET'])]
+    #[Route('/cover-letter/{id}', name: 'cover_letter_show', methods: ['GET'])]
     public function show(int $id, CoverLetterRepository $coverLetterRepository): Response
     {
         $coverLetter = $coverLetterRepository->find($id);
