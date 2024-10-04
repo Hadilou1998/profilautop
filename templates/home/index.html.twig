@@ -3,58 +3,67 @@
 {% block title %}Bienvenue sur Profilau.top{% endblock %}
 
 {% block body %}
-    <div class="flex flex-col min-h-screen bg-gray-50">
-        <!-- Header Section -->
-        <header class="p-8 text-center text-white bg-blue-600">
-            <h1 class="text-4xl font-bold">Bienvenue sur Profilau.top</h1>
-            <p class="mt-4 text-lg">Optimisez votre recherche d'emploi avec notre plateforme intuitive !</p>
-            <a href="{{ path('app_register') }}" class="inline-block px-4 py-2 mt-4 text-blue-600 transition bg-white rounded shadow hover:bg-gray-200">Commencez ici</a>
-        </header>
+    <header class="p-5 text-white bg-blue-600">
+        <nav class="container flex justify-between mx-auto">
+            <h1 class="text-2xl font-bold">ProfilAu</h1>
+            <ul class="flex space-x-4">
+                <li><a href="{{ path('app_home') }}" class="hover:underline">Accueil</a></li>
+                <li><a href="{{ path('app_login') }}" class="hover:underline">Connexion</a></li>
+                <li><a href="{{ path('app_register') }}" class="hover:underline">Inscription</a></li>
+                <li><a href="{{ path('app_dashboard') }}" class="hover:underline">Tableau de bord</a></li>
+            </ul>
+        </nav>
+        <h2 class="mt-4 text-3xl">Optimisez votre recherche d'emploi</h2>
+    </header>
 
-        <!-- About Section -->
-        <section class="max-w-6xl p-6 mx-auto">
-            <h2 class="mt-10 text-3xl font-semibold text-gray-800">À propos de l'application</h2>
-            <p class="mt-4 text-gray-700">
-                L'application Profilau.top vise à simplifier et optimiser le processus de recherche d'emploi pour les demandeurs d'emploi.
-                Gérer efficacement vos candidatures, créer du contenu personnalisé pour vos démarches, et suivre l'évolution de vos postulations n'a jamais été aussi simple.
+    <main class="container p-5 mx-auto">
+        <section class="p-6 mb-8 bg-white rounded-lg shadow-md">
+            <h2 class="mb-3 text-xl font-semibold">Description de l'application</h2>
+            <p class="text-gray-700">
+                L'application vise à simplifier et optimiser le processus de recherche d'emploi pour les demandeurs d'emploi. 
+                Elle permettra aux utilisateurs de gérer efficacement leurs candidatures, de créer du contenu personnalisé pour leurs démarches, 
+                et de suivre l'évolution de leurs postulations.
             </p>
         </section>
 
-        <!-- Objectives Section -->
-        <section class="max-w-6xl p-6 mx-auto mt-8 bg-gray-100 rounded-lg shadow-md">
-            <h2 class="text-3xl font-semibold text-gray-800">Objectifs</h2>
-            <ul class="mt-4 text-gray-700 list-disc list-inside">
-                <li>Centraliser et organiser vos candidatures.</li>
-                <li>Générer rapidement du contenu personnalisé pour vos démarches.</li>
-                <li>Suivre visuellement l'avancement de vos candidatures.</li>
-                <li>Gagner du temps et de l'efficacité dans votre recherche d'emploi.</li>
+        <section class="p-6 mb-8 bg-white rounded-lg shadow-md">
+            <h2 class="mb-3 text-xl font-semibold">Objectifs</h2>
+            <ul class="pl-5 text-gray-700 list-disc">
+                <li>Simplifier le processus de recherche d'emploi.</li>
+                <li>Optimiser la gestion des candidatures.</li>
+                <li>Créer du contenu personnalisé pour chaque démarche.</li>
+                <li>Suivre l'évolution des postulations en temps réel.</li>
             </ul>
         </section>
 
-        <!-- Target Audience Section -->
-        <section class="max-w-6xl p-6 mx-auto mt-8">
-            <h2 class="text-3xl font-semibold text-gray-800">Cible</h2>
-            <p class="mt-4 text-gray-700">
-                Cette plateforme est destinée aux demandeurs d'emploi de tous niveaux d'expérience, 
-                en particulier ceux qui sont actifs dans leur recherche et qui souhaitent optimiser leur processus de candidature.
+        <section class="p-6 mb-8 bg-white rounded-lg shadow-md">
+            <h2 class="mb-3 text-xl font-semibold">Cible</h2>
+            <p class="text-gray-700">
+                Demandeurs d'emploi de tous niveaux d'expérience, particulièrement ceux qui sont actifs dans leur recherche et qui souhaitent optimiser leur processus de candidature.
             </p>
         </section>
 
-        <!-- User Experience Section -->
-        <section class="max-w-6xl p-6 mx-auto mt-8 bg-gray-100 rounded-lg shadow-md">
-            <h2 class="text-3xl font-semibold text-gray-800">Expérience Attendue</h2>
-            <p class="mt-4 text-gray-700">Une interface intuitive et fluide permettant aux utilisateurs de :</p>
-            <ul class="mt-4 text-gray-700 list-disc list-inside">
-                <li>Centrer et organiser leurs candidatures.</li>
+        <section class="p-6 mb-8 bg-white rounded-lg shadow-md">
+            <h2 class="mb-3 text-xl font-semibold">Expérience attendue</h2>
+            <p class="text-gray-700">Une interface intuitive et fluide permettant aux utilisateurs de :</p>
+            <ul class="pl-5 text-gray-700 list-disc">
+                <li>Centraliser et organiser leurs candidatures.</li>
                 <li>Générer rapidement du contenu personnalisé pour leurs démarches.</li>
                 <li>Suivre visuellement l'avancement de leurs candidatures.</li>
                 <li>Gagner du temps et de l'efficacité dans leur recherche d'emploi.</li>
             </ul>
         </section>
 
-        <!-- Footer Section -->
-        <footer class="p-4 mt-auto text-center text-white bg-blue-600">
-            <p>&copy; 2024 Profilau.top - Tous droits réservés</p>
-        </footer>
-    </div>
+        <section class="text-center">
+            <h2 class="mb-3 text-xl font-semibold">Commencez dès maintenant</h2>
+            <p class="text-gray-700">Rejoignez-nous et améliorez votre expérience de recherche d'emploi.</p>
+            <a href="{{ path('app_register') }}" class="inline-block px-4 py-2 mt-5 text-white transition bg-blue-600 rounded hover:bg-blue-700">
+                S'inscrire
+            </a>
+        </section>
+    </main>
+
+    <footer class="p-4 mt-10 text-center text-white bg-gray-800">
+        <p>&copy; {{ "now"|date("Y") }} ProfilAu. Tous droits réservés.</p>
+    </footer>
 {% endblock %}

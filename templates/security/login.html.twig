@@ -4,56 +4,30 @@
 
 {% block body %}
 <div class="flex items-center justify-center min-h-screen bg-gray-100">
-    <div class="w-full max-w-md p-8 bg-white border border-gray-300 rounded-lg shadow-md">
-        <h2 class="mb-6 text-2xl font-bold text-center text-gray-800">Connexion</h2>
-        
-        {% if error %}
-            <div class="px-4 py-3 mb-4 text-red-700 bg-red-100 border border-red-400 rounded">
-                Identifiants incorrects. Veuillez réessayer.
-            </div>
-        {% endif %}
-        
-        <form action="{{ path('app_login') }}" method="post">
-            <div class="mb-4">
-                <label for="email" class="block text-sm font-medium text-gray-700">Adresse Email</label>
-                <input type="email" id="email" name="_username" value="{{ last_username }}" required autofocus
-                    class="block w-full px-3 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-            </div>
+    <div class="w-full max-w-md p-6 bg-white rounded-lg shadow-md">
+        <h2 class="mb-6 text-2xl font-bold text-center">Connexion</h2>
 
-            <div class="mb-6">
-                <label for="password" class="block text-sm font-medium text-gray-700">Mot de passe</label>
-                <input type="password" id="password" name="_password" required
-                    class="block w-full px-3 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-            </div>
+        {{ form_start(loginForm) }}
+        <div class="mb-4">
+            {{ form_label(loginForm.email) }}
+            {{ form_widget(loginForm.email, {'attr': {'class': 'mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-500'}}) }}
+            {{ form_errors(loginForm.email) }}
+        </div>
+        <div class="mb-6">
+            {{ form_label(loginForm.password) }}
+            {{ form_widget(loginForm.password, {'attr': {'class': 'mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-500'}}) }}
+            {{ form_errors(loginForm.password) }}
+        </div>
+        <div class="flex items-center justify-between">
+            <button type="submit" class="w-full px-4 py-2 text-white bg-blue-600 rounded-md hover:bg-blue-700">
+                Se connecter
+            </button>
+        </div>
+        {{ form_end(loginForm) }}
 
-            <div class="flex items-center justify-between">
-                <div class="flex items-center">
-                    <input id="remember_me" name="_remember_me" type="checkbox"
-                        class="w-4 h-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500">
-                    <label for="remember_me" class="block ml-2 text-sm text-gray-900">
-                        Se souvenir de moi
-                    </label>
-                </div>
-                
-                <div class="text-sm">
-                    <a href="#" class="font-medium text-indigo-600 hover:text-indigo-500">Mot de passe oublié?</a>
-                </div>
-            </div>
-
-            <div class="mt-6">
-                <button type="submit"
-                    class="flex justify-center w-full px-4 py-2 text-sm font-medium text-white bg-indigo-600 border border-transparent rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                    Se connecter
-                </button>
-            </div>
-        </form>
-
-        <p class="mt-6 text-sm text-center text-gray-600">
-            Vous n'avez pas de compte?
-            <a href="{{ path('app_register') }}" class="font-medium text-indigo-600 hover:text-indigo-500">
-                Créer un compte
-            </a>
-        </p>
+        <div class="mt-4 text-center">
+            <a href="#" class="text-sm text-blue-600 hover:underline">Mot de passe oublié ?</a>
+        </div>
     </div>
 </div>
 {% endblock %}
