@@ -1,71 +1,49 @@
 security:
+    # Encoders to hash passwords
     password_hashers:
         App\Entity\User:
-            algorithm: bcrypt
-            cost: 12
+            algorithm: auto
 
-    # Configure where users come from (database, LDAP, etc.)
+    # Main user provider
     providers:
+        # In-memory or database provider
         app_user_provider:
             entity:
                 class: App\Entity\User
                 property: email
 
+    # Firewalls
     firewalls:
-        # Public access firewall for the login, register, and public home page
-        dev:
-            pattern: ^/(_(profiler|wdt)|css|images|js)/
-            security: false
-
+        # Main firewall
         main:
-            
             lazy: true
-            pattern: ^/
-            provider: app_user_provider
-
-            # Login form configuration
+            # Use form_login to authenticate users
             form_login:
                 login_path: /login
-                check_path: /login_check
-
+                check_path: /login
+                # Add the path for redirection after login
+                default_target_path: /
             logout:
-                path: security_logout
-                target: home
+                path: /logout
+                target: /
 
-            # Session parameters for security
-            remember_me:
-                secret:   '%kernel.secret%'
-                lifetime: 604800 # 1 week
-                path:     /
-                always_remember_me: false
-
+    # Access control
     access_control:
-        # Allowing unrestricted access to login, register, and home pages
-        - { path: ^/login$, roles: PUBLIC_ACCESS_CONTROL }
-        - { path: ^/register$, roles: PUBLIC_ACCESS_CONTROL }
-        - { path: ^/$, roles: PUBLIC_ACCESS_CONTROL }
-
-        # Only authenticated users can access logout
-        - { path: ^/logout$, roles: PUBLIC_ACCESS_CONTROL }
-
-        # Only users with ROLE_USER can access these pages
+        # Allow everyone to access the home page
+        - { path: ^/$, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        # Allow access to the login and registration pages for everyone
+        - { path: ^/login$, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/register$, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        # Protect the dashboard and all job offers routes for authenticated users
         - { path: ^/dashboard, roles: ROLE_USER }
         - { path: ^/job-offers, roles: ROLE_USER }
-        - { path: ^/linkedin-message, roles: ROLE_USER }
-        - { path: ^/cover-letter, roles: ROLE_USER }
+        # Allow access to LinkedInMessage and CoverLetter generation for users
+        - { path: ^/linkedin-message/generate, roles: ROLE_USER }
+        - { path: ^/cover-letter/generate, roles: ROLE_USER }
+        # Allow users to access their own resources
+        - { path: ^/linkedin-message/\d+$, roles: ROLE_USER }
+        - { path: ^/cover-letter/\d+$, roles: ROLE_USER }
+        # Other routes requiring user authentication
         - { path: ^/kanban, roles: ROLE_USER }
-        - { path: ^/api/job-offers/update-status, roles: ROLE_USER }
-
-    role_hierarchy:
-        ROLE_ADMIN:       ROLE_USER
-        ROLE_SUPER_ADMIN: ROLE_ADMIN
-
-    # Configure how users are authenticated
-    # (e.g. login form, API token, etc.)
-    access_decision_manager:
-        strategy: unanimous
-
-# Security tokens for CSRF protection
-framework:
-    csrf_protection:
-        enabled: true
+        # Allow API calls for authenticated users
+        - { path: ^/api, roles: ROLE_USER }
