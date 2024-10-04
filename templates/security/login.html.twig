@@ -13,7 +13,7 @@
             </div>
         {% endif %}
         
-        <form action="{{ path('security_login') }}" method="post">
+        <form action="{{ path('app_login') }}" method="post">
             <div class="mb-4">
                 <label for="email" class="block text-sm font-medium text-gray-700">Adresse Email</label>
                 <input type="email" id="email" name="_username" value="{{ last_username }}" required autofocus
@@ -50,7 +50,7 @@
 
         <p class="mt-6 text-sm text-center text-gray-600">
             Vous n'avez pas de compte?
-            <a href="{{ path('registration_register') }}" class="font-medium text-indigo-600 hover:text-indigo-500">
+            <a href="{{ path('app_register') }}" class="font-medium text-indigo-600 hover:text-indigo-500">
                 Créer un compte
             </a>
         </p>
