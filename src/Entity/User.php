@@ -3,11 +3,16 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
-use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Doctrine\DBAL\Types\Types;
+use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
+#[ORM\Table(name: '`user`')]
+#[ORM\HasLifecycleCallbacks]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
@@ -15,9 +20,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 180)]   
+    #[ORM\Column(length: 255)]
     private ?string $email = null;
 
+    /**
+     * @var string The hashed password
+     */
     #[ORM\Column]
     private ?string $password = null;
 
@@ -33,13 +41,39 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?\DateTimeImmutable $updatedAt = null;
 
-    #[ORM\Column(nullable: true)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $image = null;
 
-    #[ORM\Column(type: "json")]
+    #[ORM\Column(type: Types::ARRAY)]
     private array $roles = [];
 
-    // Getters et Setters
+    /**
+     * @var Collection<int, JobOffer>
+     */
+    #[ORM\OneToMany(targetEntity: JobOffer::class, mappedBy: 'app_user')]
+    private Collection $jobOffers;
+
+    /**
+     * @var Collection<int, LinkedInMessage>
+     */
+    #[ORM\OneToMany(targetEntity: LinkedInMessage::class, mappedBy: 'app_user')]
+    private Collection $linkedInMessages;
+
+    /**
+     * @var Collection<int, CoverLetter>
+     */
+    #[ORM\OneToMany(targetEntity: CoverLetter::class, mappedBy: 'app_user')]
+    private Collection $coverLetters;
+
+    public function __construct()
+    {
+        $this->jobOffers = new ArrayCollection();
+        $this->linkedInMessages = new ArrayCollection();
+        $this->coverLetters = new ArrayCollection();
+        $this->roles = ['ROLE_USER'];
+        $this->createdAt = new \DateTimeImmutable();
+        $this->updatedAt = new \DateTimeImmutable();
+    }
 
     public function getId(): ?int
     {
@@ -57,7 +91,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getPassword(): string
+    /**
+     * @see PasswordAuthenticatedUserInterface
+     */
+    public function getPassword(): ?string
     {
         return $this->password;
     }
@@ -66,6 +103,25 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         $this->password = $password;
         return $this;
+    }
+
+    /**
+     * @see UserInterface
+     */
+    public function eraseCredentials(): void
+    {
+        // If you store any temporary, sensitive data on the user, clear it here
+        // $this->plainPassword = null;
+    }
+
+    /**
+     * A visual identifier that represents this user.
+     *
+     * @see UserInterface
+     */
+    public function getUserIdentifier(): string
+    {
+        return (string) $this->email;
     }
 
     public function getFirstName(): ?string
@@ -112,6 +168,19 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+    #[ORM\PrePersist]
+    public function setCreatedAtValue(): void
+    {
+        $this->createdAt = new \DateTimeImmutable();
+        $this->updatedAt = new \DateTimeImmutable();
+    }
+
+    #[ORM\PreUpdate]
+    public function setUpdatedAtValue(): void
+    {
+        $this->updatedAt = new \DateTimeImmutable();
+    }
+
     public function getImage(): ?string
     {
         return $this->image;
@@ -125,7 +194,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function getRoles(): array
     {
-        return $this->roles;
+        $roles = $this->roles;
+        // guarantee every user at least has ROLE_USER
+        $roles[] = 'ROLE_USER';
+        return array_unique($roles);
     }
 
     public function setRoles(array $roles): static
@@ -134,24 +206,87 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function addRole(string $role): static
+    /**
+     * @return Collection<int, JobOffer>
+     */
+    public function getJobOffers(): Collection
     {
-        if (!in_array($role, $this->roles, true)) {
-            $this->roles[] = $role;
-        }
+        return $this->jobOffers;
+    }
 
+    public function addJobOffer(JobOffer $jobOffer): static
+    {
+        if (!$this->jobOffers->contains($jobOffer)) {
+            $this->jobOffers->add($jobOffer);
+            $jobOffer->setAppUser($this);
+        }
         return $this;
     }
 
-    // Méthode obligatoire de l'interface UserInterface
-    public function getUserIdentifier(): string
+    public function removeJobOffer(JobOffer $jobOffer): static
     {
-        return $this->email;
+        if ($this->jobOffers->removeElement($jobOffer)) {
+            // set the owning side to null (unless already changed)
+            if ($jobOffer->getAppUser() === $this) {
+                $jobOffer->setAppUser(null);
+            }
+        }
+        return $this;
     }
 
-    // Méthode obligatoire de l'interface UserInterface
-    public function eraseCredentials(): void
+    /**
+     * @return Collection<int, LinkedInMessage>
+     */
+    public function getLinkedInMessages(): Collection
     {
-        // Si vous stockez des données sensibles, cela devrait être supprimé ici.
+        return $this->linkedInMessages;
+    }
+
+    public function addLinkedInMessage(LinkedInMessage $linkedInMessage): static
+    {
+        if (!$this->linkedInMessages->contains($linkedInMessage)) {
+            $this->linkedInMessages->add($linkedInMessage);
+            $linkedInMessage->setAppUser($this);
+        }
+        return $this;
+    }
+
+    public function removeLinkedInMessage(LinkedInMessage $linkedInMessage): static
+    {
+        if ($this->linkedInMessages->removeElement($linkedInMessage)) {
+            // set the owning side to null (unless already changed)
+            if ($linkedInMessage->getAppUser() === $this) {
+                $linkedInMessage->setAppUser(null);
+            }
+        }
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, CoverLetter>
+     */
+    public function getCoverLetters(): Collection
+    {
+        return $this->coverLetters;
+    }
+
+    public function addCoverLetter(CoverLetter $coverLetter): static
+    {
+        if (!$this->coverLetters->contains($coverLetter)) {
+            $this->coverLetters->add($coverLetter);
+            $coverLetter->setAppUser($this);
+        }
+        return $this;
+    }
+
+    public function removeCoverLetter(CoverLetter $coverLetter): static
+    {
+        if ($this->coverLetters->removeElement($coverLetter)) {
+            // set the owning side to null (unless already changed)
+            if ($coverLetter->getAppUser() === $this) {
+                $coverLetter->setAppUser(null);
+            }
+        }
+        return $this;
     }
 }

@@ -16,28 +16,28 @@ class CoverLetterRepository extends ServiceEntityRepository
         parent::__construct($registry, CoverLetter::class);
     }
 
-    //    /**
-    //     * @return CoverLetter[] Returns an array of CoverLetter objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('c')
-    //            ->andWhere('c.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('c.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
+//    /**
+//     * @return CoverLetter[] Returns an array of CoverLetter objects
+//     */
+//    public function findByExampleField($value): array
+//    {
+//        return $this->createQueryBuilder('c')
+//            ->andWhere('c.exampleField = :val')
+//            ->setParameter('val', $value)
+//            ->orderBy('c.id', 'ASC')
+//            ->setMaxResults(10)
+//            ->getQuery()
+//            ->getResult()
+//        ;
+//    }
 
-    //    public function findOneBySomeField($value): ?CoverLetter
-    //    {
-    //        return $this->createQueryBuilder('c')
-    //            ->andWhere('c.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
+//    public function findOneBySomeField($value): ?CoverLetter
+//    {
+//        return $this->createQueryBuilder('c')
+//            ->andWhere('c.exampleField = :val')
+//            ->setParameter('val', $value)
+//            ->getQuery()
+//            ->getOneOrNullResult()
+//        ;
+//    }
 }

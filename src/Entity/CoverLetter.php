@@ -23,11 +23,11 @@ class CoverLetter
     #[ORM\Column]
     private ?\DateTimeImmutable $updatedAt = null;
 
-    #[ORM\ManyToOne]
+    #[ORM\ManyToOne(inversedBy: 'coverLetters')]
     #[ORM\JoinColumn(nullable: false)]
     private ?JobOffer $jobOffer = null;
 
-    #[ORM\ManyToOne]
+    #[ORM\ManyToOne(inversedBy: 'coverLetters')]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $app_user = null;
 

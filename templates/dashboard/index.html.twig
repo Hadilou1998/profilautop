@@ -1,19 +1,54 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Tableau de bord{% endblock %}
+{% block title %}Tableau de bord du chercheur d'emploi{% endblock %}
 
 {% block body %}
-<div class="container mx-auto mt-10">
-    <h1 class="mb-6 text-4xl font-bold">Tableau de bord</h1>
-    <div class="grid grid-cols-1 gap-6 md:grid-cols-3">
-        {% for jobOffer in jobOffers %}
-            <div class="p-6 bg-white rounded-lg shadow">
-                <h3 class="text-xl font-semibold">{{ jobOffer.title }}</h3>
-                <p class="text-gray-600">{{ jobOffer.company }}</p>
-                <p class="mt-2">{{ jobOffer.status }}</p>
-                <a href="{{ path('job_offer_show', {'id': jobOffer.id}) }}" class="inline-block mt-4 text-blue-500">Voir la candidature</a>
-            </div>
-        {% endfor %}
+<div class="container mx-auto px-4 py-8">
+    <h1 class="text-3xl font-bold mb-8">Tableau de bord du chercheur d'emploi</h1>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        <div class="bg-white rounded-lg shadow p-6">
+            <h2 class="text-xl font-semibold mb-2">Candidatures totales</h2>
+            <p class="text-3xl font-bold text-blue-600">{{ dashboardData.totalApplications }}</p>
+        </div>
+        <div class="bg-white rounded-lg shadow p-6">
+            <h2 class="text-xl font-semibold mb-2">En attente</h2>
+            <p class="text-3xl font-bold text-yellow-600">{{ dashboardData.pendingApplications }}</p>
+        </div>
+        <div class="bg-white rounded-lg shadow p-6">
+            <h2 class="text-xl font-semibold mb-2">Entretiens prévus</h2>
+            <p class="text-3xl font-bold text-green-600">{{ dashboardData.interviewsScheduled }}</p>
+        </div>
+        <div class="bg-white rounded-lg shadow p-6">
+            <h2 class="text-xl font-semibold mb-2">Offres reçues</h2>
+            <p class="text-3xl font-bold text-purple-600">{{ dashboardData.offersMade }}</p>
+        </div>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div class="bg-white rounded-lg shadow p-6">
+            <h2 class="text-2xl font-semibold mb-4">Candidatures récentes</h2>
+            <ul class="divide-y divide-gray-200">
+                {% for application in dashboardData.recentApplications %}
+                    <li class="py-4">
+                        <p class="font-semibold">{{ application.company }}</p>
+                        <p class="text-gray-600">{{ application.position }}</p>
+                        <p class="text-sm text-gray-500">Postulé le {{ application.date|date('d/m/Y') }}</p>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="bg-white rounded-lg shadow p-6">
+            <h2 class="text-2xl font-semibold mb-4">Entretiens à venir</h2>
+            <ul class="divide-y divide-gray-200">
+                {% for interview in dashboardData.upcomingInterviews %}
+                    <li class="py-4">
+                        <p class="font-semibold">{{ interview.company }}</p>
+                        <p class="text-gray-600">{{ interview.date|date('d/m/Y') }} à {{ interview.time }}</p>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
     </div>
 </div>
 {% endblock %}

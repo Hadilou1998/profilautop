@@ -1,23 +1,21 @@
 security:
-    # Encoders to hash passwords
     password_hashers:
-        App\Entity\User:
-            algorithm: auto
-
-    # Main user provider
+        Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: 'auto'
+    
     providers:
-        # In-memory or database provider
         app_user_provider:
             entity:
                 class: App\Entity\User
                 property: email
-
-    # Firewalls
+    
     firewalls:
-        # Main firewall
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
         main:
             lazy: true
-            # Use form_login to authenticate users
+            provider: app_user_provider
+           
             form_login:
                 login_path: app_login
                 check_path: app_login
@@ -26,24 +24,26 @@ security:
                 path: app_logout
                 # where to redirect after logout
                 # target: app_any_route
+            remember_me:
+                secret: '%kernel.secret%'
+                lifetime: 604800
+                path: /
+                always_remember_me: true
 
-    # Access control
     access_control:
-        # Allow everyone to access the home page
-        - { path: ^/, roles: PUBLIC_ACCESS }
-        # Allow access to the login and registration pages for everyone
         - { path: ^/login, roles: PUBLIC_ACCESS }
         - { path: ^/register, roles: PUBLIC_ACCESS }
-        # Protect the dashboard and all job offers routes for authenticated users
         - { path: ^/dashboard, roles: ROLE_USER }
-        - { path: ^/job-offers, roles: ROLE_USER }
-        # Allow access to LinkedInMessage and CoverLetter generation for users
-        - { path: ^/linkedin-message/generate, roles: ROLE_USER }
-        - { path: ^/cover-letter/generate, roles: ROLE_USER }
-        # Allow users to access their own resources
-        - { path: ^/linkedin-message/, roles: ROLE_USER }
-        - { path: ^/cover-letter/, roles: ROLE_USER }
-        # Other routes requiring user authentication
-        - { path: ^/kanban, roles: ROLE_USER }
-        # Allow API calls for authenticated users
-        - { path: ^/api, roles: ROLE_USER }
+        - { path: ^/job/offer, roles: ROLE_USER }
+        - { path: ^/job-offers/new, roles: ROLE_USER }
+        # - { path: ^/admin, roles: ROLE_ADMIN }
+        # - { path: ^/profile, roles: ROLE_USER }
+
+when@test:
+    security:
+        password_hashers:
+            Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface:
+                algorithm: auto
+                cost: 4 
+                time_cost: 3 
+                memory_cost: 10

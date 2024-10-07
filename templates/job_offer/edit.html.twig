@@ -1,12 +1,30 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Modifier l'Offre d'Emploi{% endblock %}
+{% block title %}Modifier l'offre d'emploi{% endblock %}
 
 {% block body %}
-    <h1>Modifier l'Offre d'Emploi : {{ jobOffer.title }}</h1>
-    
-    {{ form_start(form) }}
-        {{ form_widget(form) }}
-        <button class="btn btn-primary">Modifier</button>
-    {{ form_end(form) }}
+    <div class="container mx-auto px-4 py-8 max-w-2xl">
+        <h1 class="text-3xl font-bold mb-6 text-gray-800">Modifier l'offre d'emploi</h1>
+
+        {{ form_start(form, {'attr': {'class': 'bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4'}}) }}
+            <div class="mb-4">
+                {{ form_widget(form) }}
+            </div>
+            <div class="flex items-center justify-between mt-6">
+                <a href="{{ path('app_job_offer_show', {'id': job_offer.id}) }}" class="text-blue-500 hover:text-blue-800 font-bold">Annuler</a>
+                <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                    Enregistrer les modifications
+                </button>
+            </div>
+        {{ form_end(form) }}
+
+        <div class="mt-8 text-center">
+            <form method="post" action="{{ path('app_job_offer_delete', {'id': job_offer.id}) }}" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cette offre d\'emploi ?');">
+                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ job_offer.id) }}">
+                <button type="submit" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                    Supprimer cette offre
+                </button>
+            </form>
+        </div>
+    </div>
 {% endblock %}

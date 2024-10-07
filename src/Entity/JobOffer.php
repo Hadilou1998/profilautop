@@ -43,9 +43,15 @@ class JobOffer
     #[ORM\Column(length: 255)]
     private ?string $status = null;
 
-    #[ORM\ManyToOne]
+    #[ORM\ManyToOne(inversedBy: 'jobOffers')]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $app_user = null;
+
+    /**
+     * @var Collection<int, LinkedInMessage>
+     */
+    #[ORM\OneToMany(targetEntity: LinkedInMessage::class, mappedBy: 'jobOffer')]
+    private Collection $linkedInMessages;
 
     /**
      * @var Collection<int, CoverLetter>
@@ -55,6 +61,7 @@ class JobOffer
 
     public function __construct()
     {
+        $this->linkedInMessages = new ArrayCollection();
         $this->coverLetters = new ArrayCollection();
     }
 
@@ -179,6 +186,36 @@ class JobOffer
     public function setAppUser(?User $app_user): static
     {
         $this->app_user = $app_user;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, LinkedInMessage>
+     */
+    public function getLinkedInMessages(): Collection
+    {
+        return $this->linkedInMessages;
+    }
+
+    public function addLinkedInMessage(LinkedInMessage $linkedInMessage): static
+    {
+        if (!$this->linkedInMessages->contains($linkedInMessage)) {
+            $this->linkedInMessages->add($linkedInMessage);
+            $linkedInMessage->setJobOffer($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLinkedInMessage(LinkedInMessage $linkedInMessage): static
+    {
+        if ($this->linkedInMessages->removeElement($linkedInMessage)) {
+            // set the owning side to null (unless already changed)
+            if ($linkedInMessage->getJobOffer() === $this) {
+                $linkedInMessage->setJobOffer(null);
+            }
+        }
 
         return $this;
     }
